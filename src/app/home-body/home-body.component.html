@@ -1,0 +1,247 @@
+  <div class="container-fluid">
+    <h1 class="text-center mt-3">Pokédex</h1>
+    <sup class="d-flex justify-content-center">by DrumskY</sup>
+    <div class="d-flex justify-content-around my-5">
+      <button (click)="prevPage()" [disabled]="changePage === 0" class="btn btn-warning btn-lg btn-radius ">Previous page</button>
+      <input type="text" [(ngModel)]="searchTerm" (input)="onSearchInput(searchTerm)" class="form-control w-25" placeholder="Enter a pokemon name..." />
+      <button (click)="nextPage()" class="btn btn-warning btn-lg btn-radius">Next page</button>
+    </div>
+    
+    <div class="d-flex flex-row justify-content-around flex-wrap mb-5">
+
+        <div class="d-flex flex-column align-items-center ">
+          <h5>Bug</h5>
+          <div class="bug-class-background p-2 rounded-circle">
+            <img src="../../assets/bug.svg" alt="bug-icon" />
+          </div>
+        </div>
+
+        <div class="d-flex flex-column align-items-center">
+          <h5>Dark</h5>
+          <div class="dark-class-background p-2 rounded-circle">
+            <img src="../../assets/dark.svg" alt="dark-icon" />
+          </div>
+        </div>
+
+        <div class="d-flex flex-column align-items-center">
+          <h5>Dragon</h5>
+          <div class="dragon-class-background p-2 rounded-circle">
+            <img src="../../assets/dragon.svg" alt="dragon-icon" />
+          </div>
+        </div>
+
+        <div class="d-flex flex-column align-items-center ">
+          <h5>Electric</h5>
+          <div class="electric-class-background p-2 rounded-circle">
+            <img src="../../assets/electric.svg" alt="electric-icon" />
+          </div>
+        </div>
+
+        <div class="d-flex flex-column align-items-center">
+          <h5>Fairy</h5>
+          <div class="fairy-class-background p-2 rounded-circle">
+            <img src="../../assets/fairy.svg" alt="fairy-icon" />
+          </div>
+        </div>
+
+        <div class="d-flex flex-column align-items-center">
+          <h5>Flighting</h5>
+          <div class="fighting-class-background p-2 rounded-circle">
+            <img src="../../assets/fighting.svg" alt="fighting-icon" />
+          </div>
+        </div>
+
+        <div class="d-flex flex-column align-items-center ">
+          <h5>Fire</h5>
+          <div class="fire-class-background p-2 rounded-circle">
+            <img src="../../assets/fire.svg" alt="fire-icon" />
+          </div>
+        </div>
+
+        <div class="d-flex flex-column align-items-center">
+          <h5>Flying</h5>
+          <div class="flying-class-background p-2 rounded-circle">
+            <img src="../../assets/flying.svg" alt="flying-icon" />
+          </div>
+        </div>
+
+        <div class="d-flex flex-column align-items-center">
+          <h5>Ghost</h5>
+          <div class="ghost-class-background p-2 rounded-circle">
+            <img src="../../assets/ghost.svg" alt="ghost-icon" />
+          </div>
+        </div>
+
+        <div class="d-flex flex-column align-items-center">
+          <h5>Grass</h5>
+          <div class="grass-class-background p-2 rounded-circle">
+            <img src="../../assets/grass.svg" alt="grass-icon" />
+          </div>
+        </div>
+
+        <div class="d-flex flex-column align-items-center ">
+          <h5>Ground</h5>
+          <div class="ground-class-background p-2 rounded-circle">
+            <img src="../../assets/ground.svg" alt="ground-icon" />
+          </div>
+        </div>
+
+        <div class="d-flex flex-column align-items-center">
+          <h5>Ice</h5>
+          <div class="ice-class-background p-2 rounded-circle">
+            <img src="../../assets/ice.svg" alt="ice-icon" />
+          </div>
+        </div>
+
+        <div class="d-flex flex-column align-items-center">
+          <h5>Normal</h5>
+          <div class="normal-class-background p-2 rounded-circle">
+            <img src="../../assets/normal.svg" alt="normal-icon" />
+          </div>
+        </div>
+
+        <div class="d-flex flex-column align-items-center">
+          <h5>Poison</h5>
+          <div class="poison-class-background p-2 rounded-circle">
+            <img src="../../assets/poison.svg" alt="poison-icon" />
+          </div>
+        </div>
+
+        <div class="d-flex flex-column align-items-center">
+          <h5>Psychic</h5>
+          <div class="psychic-class-background p-2 rounded-circle">
+            <img src="../../assets/psychic.svg" alt="psychic-icon" />
+          </div>
+        </div>
+
+        <div class="d-flex flex-column align-items-center">
+          <h5>Rock</h5>
+          <div class="rock-class-background p-2 rounded-circle">
+            <img src="../../assets/rock.svg" alt="rock-icon" />
+          </div>
+        </div>
+
+        <div class="d-flex flex-column align-items-center">
+          <h5>Steel</h5>
+          <div class="steel-class-background p-2 rounded-circle">
+            <img src="../../assets/steel.svg" alt="steel-icon" />
+          </div>
+        </div>
+
+        <div class="d-flex flex-column align-items-center">
+          <h5>Water</h5>
+          <div class="water-class-background p-2 rounded-circle">
+            <img src="../../assets/water.svg" alt="water-icon" />
+          </div>
+        </div>
+        
+    </div>
+
+    <div *ngIf="pokemonInfo; else loading" class="row">
+      <div *ngFor="let pokemon of filteredPokemonInfo" class="col-sm-6 col-md-4 col-lg-3 text-center align-items-stretch mb-4">
+        <div [ngClass]="getClassBackground(pokemon.types.length > 1 && pokemon.types[0].type.name === 'normal' ? pokemon.types[1].type.name : pokemon.types[0].type.name)" class="card h-100">
+          
+          <h2 class="card-title">{{ pokemon.name }}</h2>
+
+          <div class="d-flex flex-row justify-content-center">
+            <div *ngFor="let poke of pokemon.types" class="p-2">
+              <ng-container *ngIf="poke.type.name === 'bug'">
+                <img src="../../assets/bug.svg" alt="bug-icon" />
+              </ng-container>
+
+              <ng-container *ngIf="poke.type.name === 'dark'">
+                <img src="../../assets/dark.svg" alt="dark-icon" />
+              </ng-container>
+              
+              <ng-container *ngIf="poke.type.name === 'dragon'">
+                <img src="../../assets/dragon.svg" alt="dragon-icon" />
+              </ng-container>
+
+              <ng-container *ngIf="poke.type.name === 'electric'">
+                <img src="../../assets/electric.svg" alt="electric-icon" />
+              </ng-container>
+
+              <ng-container *ngIf="poke.type.name === 'fairy'" alt="fairy">
+                <img src="../../assets/fairy.svg" alt="fairy-icon" />
+              </ng-container>
+
+              <ng-container *ngIf="poke.type.name === 'fighting'">
+                <img src="../../assets/fighting.svg" alt="fighting-icon" />
+              </ng-container>
+
+              <ng-container *ngIf="poke.type.name === 'fire'">
+                <img src="../../assets/fire.svg" alt="fire-icon" />
+              </ng-container>
+              
+              <ng-container *ngIf="poke.type.name === 'flying'">
+                <img src="../../assets/flying.svg" alt="flying-icon" />
+              </ng-container>
+
+              <ng-container *ngIf="poke.type.name === 'ghost'">
+                <img src="../../assets/ghost.svg" alt="ghost-icon" />
+              </ng-container>
+
+              <ng-container *ngIf="poke.type.name === 'grass'">
+                <img src="../../assets/grass.svg" alt="grass-icon" />
+              </ng-container>
+
+              <ng-container *ngIf="poke.type.name === 'ground'">
+                <img src="../../assets/ground.svg" alt="ground-icon" />
+              </ng-container>
+
+              <ng-container *ngIf="poke.type.name === 'ice'">
+                <img src="../../assets/ice.svg" alt="ice-icon" />
+              </ng-container>
+            
+              <ng-container *ngIf="poke.type.name === 'normal'">
+                <img src="../../assets/normal.svg" alt="normal-icon" />
+              </ng-container>
+
+              <ng-container *ngIf="poke.type.name === 'poison'">
+                <img src="../../assets/poison.svg" alt="poison-icon" />
+              </ng-container>
+                
+              <ng-container *ngIf="poke.type.name === 'psychic'">
+                <img src="../../assets/psychic.svg" alt="psychic-icon" />
+              </ng-container>
+
+              
+              <ng-container *ngIf="poke.type.name === 'rock'">
+                <img src="../../assets/rock.svg" alt="rock-icon" />
+              </ng-container>
+            
+              <ng-container *ngIf="poke.type.name === 'steel'">
+                <img src="../../assets/steel.svg" alt="steel-icon" />
+              </ng-container>
+
+              <ng-container *ngIf="poke.type.name === 'water'">
+                <img src="../../assets/water.svg" alt="water-icon" />
+              </ng-container>
+            </div>
+          </div>
+
+          <div class="card-body d-flex flex-column justify-content-center">
+            <ng-container *ngIf="pokemon.sprites.other?.['official-artwork']?.front_default; else fallbackImage">
+              <img [src]="pokemon.sprites.other?.['official-artwork']?.front_default" alt="Poke" class="w-50 mx-auto" />
+            </ng-container>
+            <ng-template #fallbackImage>
+              <ng-container *ngIf="pokemon.sprites.other?.dream_world?.front_default; else fallbackImage2">
+                <img [src]="pokemon.sprites.other?.dream_world?.front_default" alt="Poke" class="w-50 mx-auto"/>
+              </ng-container>
+              <ng-template #fallbackImage2>
+                <img [src]="pokemon.sprites.front_shiny" alt="Poke" class="w-50 mx-auto"/>
+              </ng-template>
+            </ng-template>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <ng-template #loading>
+      <div class="text-center my-5">
+        <div class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+    </ng-template>
+  </div>
