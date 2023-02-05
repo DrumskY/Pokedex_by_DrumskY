@@ -36,6 +36,11 @@ export class HomeBodyComponent {
     this.initPokemonData();
   }
 
+  goToPokemonDetails(pokemon: { name: string }) {
+    this.router.navigate(['/pokemon', pokemon.name]);
+    console.log(pokemon.name);
+  }
+
   prevPage(): void {
     this.changePage -= 40;
     this.pokemonInfo = [];
