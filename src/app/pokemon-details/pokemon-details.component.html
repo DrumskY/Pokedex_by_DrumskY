@@ -1,1 +1,4 @@
-<h1>Pokemon details for {{ name }}</h1>
+<h1>{{ pokemonDetailsData.name }}</h1>
+<div *ngFor="let pokemon of pokemonDetailsData.abilities">
+    <p>{{pokemon.ability.name}}</p>
+</div>

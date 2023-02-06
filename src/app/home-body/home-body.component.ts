@@ -36,9 +36,9 @@ export class HomeBodyComponent {
     this.initPokemonData();
   }
 
-  goToPokemonDetails(pokemon: { name: string }) {
-    this.router.navigate(['/pokemon', pokemon.name]);
-    console.log(pokemon.name);
+  goToPokemonDetails(pokemon : string) {
+    this.router.navigate(['/pokemon', pokemon]);
+    console.log(pokemon);
   }
 
   prevPage(): void {
