@@ -2,135 +2,146 @@
     <h1 class="text-center mt-3">Pokédex</h1>
     <sup class="d-flex justify-content-center">by DrumskY</sup>
     <div class="d-flex justify-content-around my-5">
-      <button (click)="prevPage()" [disabled]="changePage === 0" class="btn btn-warning btn-lg btn-radius ">Prev page</button>
+      <button (click)="prevPage()" [disabled]="changePage === 0" class="btn btn-warning btn-lg btn-radius ">
+        <i class="fas fa-arrow-left"></i>
+      </button>
       <input type="text" [(ngModel)]="searchTerm" (input)="onSearchInput(searchTerm)" class="form-control w-25" placeholder="Enter a pokemon name..." />
-      <button (click)="nextPage()" class="btn btn-warning btn-lg btn-radius">Next page</button>
+      <button (click)="nextPage()" class="btn btn-warning btn-lg btn-radius">
+        <i class="fas fa-arrow-right"></i>
+      </button>
     </div>
     
     <div class="d-flex flex-row justify-content-around flex-wrap mb-5">
 
         <div class="d-flex flex-column align-items-center ">
+          <h5>All types</h5>
+          <div class="steel-class-background p-2 rounded-circle" style="cursor: pointer;" (click)="initPokemonData()">
+            <img src="../../assets/all.svg" alt="all-icon" style="height: 52px; width: 52px;" />
+          </div>
+        </div>
+
+        <div class="d-flex flex-column align-items-center ">
           <h5>Bug</h5>
-          <div class="bug-class-background p-2 rounded-circle">
+          <div class="bug-class-background p-2 rounded-circle" style="cursor: pointer;" (click)="filterByType('bug')">
             <img src="../../assets/bug.svg" alt="bug-icon" />
           </div>
         </div>
 
         <div class="d-flex flex-column align-items-center">
           <h5>Dark</h5>
-          <div class="dark-class-background p-2 rounded-circle">
+          <div class="dark-class-background p-2 rounded-circle" style="cursor: pointer;" (click)="filterByType('dark')">
             <img src="../../assets/dark.svg" alt="dark-icon" />
           </div>
         </div>
 
         <div class="d-flex flex-column align-items-center">
           <h5>Dragon</h5>
-          <div class="dragon-class-background p-2 rounded-circle">
+          <div class="dragon-class-background p-2 rounded-circle" style="cursor: pointer;" (click)="filterByType('dragon')">
             <img src="../../assets/dragon.svg" alt="dragon-icon" />
           </div>
         </div>
 
         <div class="d-flex flex-column align-items-center ">
           <h5>Electric</h5>
-          <div class="electric-class-background p-2 rounded-circle">
+          <div class="electric-class-background p-2 rounded-circle" style="cursor: pointer;" (click)="filterByType('electric')">
             <img src="../../assets/electric.svg" alt="electric-icon" />
           </div>
         </div>
 
         <div class="d-flex flex-column align-items-center">
           <h5>Fairy</h5>
-          <div class="fairy-class-background p-2 rounded-circle">
+          <div class="fairy-class-background p-2 rounded-circle" style="cursor: pointer;" (click)="filterByType('fairy')">
             <img src="../../assets/fairy.svg" alt="fairy-icon" />
           </div>
         </div>
 
         <div class="d-flex flex-column align-items-center">
-          <h5>Flighting</h5>
-          <div class="fighting-class-background p-2 rounded-circle">
+          <h5>Fighting</h5>
+          <div class="fighting-class-background p-2 rounded-circle" style="cursor: pointer;" (click)="filterByType('fighting')">
             <img src="../../assets/fighting.svg" alt="fighting-icon" />
           </div>
         </div>
 
         <div class="d-flex flex-column align-items-center ">
           <h5>Fire</h5>
-          <div class="fire-class-background p-2 rounded-circle">
+          <div class="fire-class-background p-2 rounded-circle" style="cursor: pointer;" (click)="filterByType('fire')">
             <img src="../../assets/fire.svg" alt="fire-icon" />
           </div>
         </div>
 
         <div class="d-flex flex-column align-items-center">
           <h5>Flying</h5>
-          <div class="flying-class-background p-2 rounded-circle">
+          <div class="flying-class-background p-2 rounded-circle" style="cursor: pointer;" (click)="filterByType('flying')">
             <img src="../../assets/flying.svg" alt="flying-icon" />
           </div>
         </div>
 
         <div class="d-flex flex-column align-items-center">
           <h5>Ghost</h5>
-          <div class="ghost-class-background p-2 rounded-circle">
+          <div class="ghost-class-background p-2 rounded-circle" style="cursor: pointer;" (click)="filterByType('ghost')">
             <img src="../../assets/ghost.svg" alt="ghost-icon" />
           </div>
         </div>
 
         <div class="d-flex flex-column align-items-center">
           <h5>Grass</h5>
-          <div class="grass-class-background p-2 rounded-circle">
+          <div class="grass-class-background p-2 rounded-circle" style="cursor: pointer;" (click)="filterByType('grass')">
             <img src="../../assets/grass.svg" alt="grass-icon" />
           </div>
         </div>
 
         <div class="d-flex flex-column align-items-center ">
           <h5>Ground</h5>
-          <div class="ground-class-background p-2 rounded-circle">
+          <div class="ground-class-background p-2 rounded-circle" style="cursor: pointer;" (click)="filterByType('ground')">
             <img src="../../assets/ground.svg" alt="ground-icon" />
           </div>
         </div>
 
         <div class="d-flex flex-column align-items-center">
           <h5>Ice</h5>
-          <div class="ice-class-background p-2 rounded-circle">
+          <div class="ice-class-background p-2 rounded-circle" style="cursor: pointer;" (click)="filterByType('ice')">
             <img src="../../assets/ice.svg" alt="ice-icon" />
           </div>
         </div>
 
         <div class="d-flex flex-column align-items-center">
           <h5>Normal</h5>
-          <div class="normal-class-background p-2 rounded-circle">
+          <div class="normal-class-background p-2 rounded-circle" style="cursor: pointer;" (click)="filterByType('normal')">
             <img src="../../assets/normal.svg" alt="normal-icon" />
           </div>
         </div>
 
         <div class="d-flex flex-column align-items-center">
           <h5>Poison</h5>
-          <div class="poison-class-background p-2 rounded-circle">
+          <div class="poison-class-background p-2 rounded-circle" style="cursor: pointer;" (click)="filterByType('poison')">
             <img src="../../assets/poison.svg" alt="poison-icon" />
           </div>
         </div>
 
         <div class="d-flex flex-column align-items-center">
           <h5>Psychic</h5>
-          <div class="psychic-class-background p-2 rounded-circle">
+          <div class="psychic-class-background p-2 rounded-circle" style="cursor: pointer;" (click)="filterByType('psychic')">
             <img src="../../assets/psychic.svg" alt="psychic-icon" />
           </div>
         </div>
 
         <div class="d-flex flex-column align-items-center">
           <h5>Rock</h5>
-          <div class="rock-class-background p-2 rounded-circle">
+          <div class="rock-class-background p-2 rounded-circle" style="cursor: pointer;" (click)="filterByType('rock')">
             <img src="../../assets/rock.svg" alt="rock-icon" />
           </div>
         </div>
 
         <div class="d-flex flex-column align-items-center">
           <h5>Steel</h5>
-          <div class="steel-class-background p-2 rounded-circle">
+          <div class="steel-class-background p-2 rounded-circle" style="cursor: pointer;" (click)="filterByType('steel')">
             <img src="../../assets/steel.svg" alt="steel-icon" />
           </div>
         </div>
 
         <div class="d-flex flex-column align-items-center">
           <h5>Water</h5>
-          <div class="water-class-background p-2 rounded-circle">
+          <div class="water-class-background p-2 rounded-circle" style="cursor: pointer;" (click)="filterByType('water')">
             <img src="../../assets/water.svg" alt="water-icon" />
           </div>
         </div>
@@ -140,7 +151,7 @@
     <div *ngIf="pokemonInfo; else loading" class="row">
       <div *ngFor="let pokemon of filteredPokemonInfo"  class="col-sm-6 col-md-4 col-lg-3 text-center align-items-stretch mb-4">
         <div (click)="goToPokemonDetails(pokemon.name)" [ngClass]="getClassBackground(pokemon.types.length > 1 && pokemon.types[0].type.name === 'normal' ? pokemon.types[1].type.name : pokemon.types[0].type.name)" class="card h-100" style="cursor: pointer;">
-          <h2 class="card-title">{{ pokemon.name }}</h2>
+          <h2 class="card-title">{{pokemon.name[0].toUpperCase()}}{{pokemon.name.substr(1).toLowerCase()}}</h2>
 
           <div class="d-flex flex-row justify-content-center">
             <div *ngFor="let poke of pokemon.types" class="p-2">

@@ -12,31 +12,32 @@ export class HomeBodyComponent {
   changePage: number = 0;
   changeLimit: number = 40;
 
-  private searching: boolean = false;
+  public searchTerm: string = '';
 
   public urlIdLookup: any;
   public pokemons: PokemonResult[] = [];
   public pokemonInfo: PokemonInfo[] = [];
-  public pokemonImage: string | any = '';
-  public text: string = '';
   public filteredPokemon: PokemonResult[] = [];
-  public results: PokemonResult[] = [];
-  public searchTerm: string = '';
   public filteredPokemonInfo: PokemonInfo[] = [];
 
-  public urlIdLookupSearch: any;
-  public pokemonsSearch: PokemonResult[] = [];
-  public pokemonInfoSearch: PokemonInfo[] = [];
-  public filteredPokemonSearch: PokemonResult[] = [];
+  public pokemonsByType: PokemonResult[] = [];
+  public pokemonInfoByType: PokemonInfo[] = [];
+  public filteredPokemonByType: PokemonResult[] = [];
+
+  public pokemonsOnSearch: PokemonResult[] = [];
+  public pokemonInfoOnSearch: PokemonInfo[] = [];
+  public filteredPokemonOnSearch: PokemonResult[] = [];
 
   constructor(private router: Router) {}
 
   ngOnInit(): void {
     // lifecycle hook
     this.initPokemonData();
+    this.searchPokemon();
+    this.searchByTypePokemon();
   }
 
-  goToPokemonDetails(pokemon : string) {
+  goToPokemonDetails(pokemon: string) {
     this.router.navigate(['/pokemon', pokemon]);
     console.log(pokemon);
   }
@@ -96,7 +97,7 @@ export class HomeBodyComponent {
     }
   }
 
-  private async initPokemonData(): Promise<void> {
+  async initPokemonData(): Promise<void> {
     this.urlIdLookup = '';
     this.pokemons = [];
     this.pokemonInfo = [];
@@ -114,9 +115,6 @@ export class HomeBodyComponent {
         {}
       );
       console.log(this.urlIdLookup);
-
-      this.pokemons = this.filteredPokemon = results;
-      console.log(this.pokemons);
 
       const pokemonInfoRequests = results.map(
         async (pokemon: PokemonResult) => {
@@ -138,9 +136,6 @@ export class HomeBodyComponent {
   }
 
   private async searchPokemon(): Promise<void> {
-    if (this.searching) return;
-    this.searching = true;
-
     try {
       const response = await axios.get<Pokemon>(
         `https://pokeapi.co/api/v2/pokemon?limit=1000&offset=0`
@@ -155,16 +150,42 @@ export class HomeBodyComponent {
           return infoResponse.data;
         })
       );
+      this.pokemonInfoOnSearch = pokemonInfo;
 
-      this.pokemons = this.filteredPokemon = pokemons;
-      this.pokemonInfo = pokemonInfo;
-
-      this.filterPokemon();
+      // this.filterPokemonOnSearch();
     } catch (error) {
       console.error(error);
-    } finally {
-      this.searching = false;
     }
+  }
+
+  private async searchByTypePokemon(): Promise<void> {
+    try {
+      const response = await axios.get<Pokemon>(
+        `https://pokeapi.co/api/v2/pokemon?limit=1000&offset=0`
+      );
+      const pokemons = response.data.results;
+      const pokemonInfo = await Promise.all(
+        pokemons.map(async (pokemon) => {
+          const pokemonID = pokemon.url.split('/')[6];
+          const infoResponse = await axios.get<PokemonInfo>(
+            `https://pokeapi.co/api/v2/pokemon/${pokemonID}`
+          );
+          return infoResponse.data;
+        })
+      );
+      this.pokemonInfoByType = pokemonInfo;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  public filterByType(type: string) {
+    this.filteredPokemonInfo = this.pokemonInfoByType.filter((pokemon) => {
+      return pokemon.types.find(
+        (pokemonType) => pokemonType.type.name === type
+      );
+    });
+    console.log(this.filteredPokemonInfo);
   }
 
   public filterPokemon(): void {
@@ -177,12 +198,22 @@ export class HomeBodyComponent {
     console.log(this.pokemonInfo);
   }
 
+  public filterPokemonOnSearch(): void {
+    this.filteredPokemonInfo = this.searchTerm
+      ? this.pokemonInfoOnSearch.filter((pokemon) =>
+          pokemon.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+        )
+      : this.pokemonInfo;
+    console.log(this.filteredPokemonInfo);
+    console.log(this.pokemonInfo);
+  }
+
   public onSearchInput(searchTerm: string): void {
     this.searchTerm = searchTerm;
     if (!searchTerm) {
-      this.initPokemonData();
+      this.filterPokemon();
       return;
     }
-    this.searchPokemon();
+    this.filterPokemonOnSearch();
   }
 }

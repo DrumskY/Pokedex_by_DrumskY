@@ -1,4 +1,190 @@
-<h1>{{ pokemonDetailsData.name }}</h1>
-<div *ngFor="let pokemon of pokemonDetailsData.abilities">
-    <p>{{pokemon.ability.name}}</p>
+<div>
+    <div class="navbar p-3"  [ngClass]="getClassBackground(pokemonDetailsData.types.length > 1 && pokemonDetailsData.types[0].type.name === 'normal' ? pokemonDetailsData.types[1].type.name : pokemonDetailsData.types[0].type.name)">
+        <span class="text-left">
+            <i class="fas fa-arrow-left" style="cursor: pointer;" (click)="goToPokemonHomePage()"></i>
+        </span>
+        <h3 class="text-center">Pokédex</h3>
+    </div>
+    <div class="d-flex flex-row justify-content-between flex-wrap w-100 p-5">
+        <div class="d-flex flex-column flex-wrap justify-content-center order-lg-1 order-md-1 order-sm-1 order-1" >
+            <div>
+                <div>
+                    <h3>Height:</h3>
+                </div>
+                <div class="m-2 p-2">
+                    <h5>{{pokemonDetailsData.height / 10}} m</h5>
+                </div>
+            </div>
+            <div >
+                <div>
+                    <h3>Weight:</h3>
+                </div>
+                <div class="m-2 p-2">
+                    <h5>{{pokemonDetailsData.weight / 10}} kg</h5>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <h3>Abilities:</h3>
+                </div>
+                <div *ngFor="let pokemon of pokemonDetailsData.abilities" class="d-flex flex-row m-2 p-2 rounded justify-content-center" [ngClass]="getClassBackground(pokemonDetailsData.types.length > 1 && pokemonDetailsData.types[0].type.name === 'normal' ? pokemonDetailsData.types[1].type.name : pokemonDetailsData.types[0].type.name)">
+                    <h5>{{pokemon.ability.name}}</h5>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <h3>Types:</h3>
+                </div>
+                <div *ngFor="let pokemon of pokemonDetailsData.types" class="d-flex flex-row justify-content-center align-items-center m-2 p-2 rounded" [ngClass]="getClassBackground(pokemon.type.name)">
+                    <h5 class="mx-2">{{pokemon.type.name}}</h5>
+                    <img src="../../assets/{{pokemon.type.name}}.svg" alt="fire-icon" style="width: 30px; height: 30px;" />
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex flex-column justify-content-center align-items-center order-lg-2 order-md-3 order-sm-3 order-3">
+            <h1>{{pokemonDetailsData.name[0].toUpperCase()}}{{pokemonDetailsData.name.substr(1).toLowerCase()}}</h1>
+            <div class="d-flex flex-row align-items-center">
+                <div *ngFor="let pokemonType of pokemonDetailsData.types" [ngClass]="getClassBackground(pokemonType.type.name)" class="p-2 m-2 rounded-circle">
+                    <img src="../../assets/{{pokemonType.type.name}}.svg" alt="fire-icon" />
+                </div>
+              </div>
+            <img [src]="pokemonDetailsData.sprites.other?.['official-artwork']?.front_default" alt="Poke" class="w-100" />
+            <div *ngIf="pokemonSpecies.is_baby === true">
+                <h3>Baby Pokémon</h3>
+            </div>
+            <div *ngIf="pokemonSpecies.is_legendary === true">
+                <h3>Legendary Pokémon</h3>
+            </div>
+            <div *ngIf="pokemonSpecies.is_mythical === true">
+                <h3>Mythical Pokémon</h3>
+            </div>
+
+            <div class="d-flex flex-row justify-content-around align-items-center">
+                <div (click)="goToPokemonDetails(firstEvolutions[0].name)" style="cursor: pointer;" class="d-flex flex-column justify-content-center align-items-center">
+                    <h5>First evolution</h5>
+                    <img [src]="firstEvolutions[0].image">
+                    <h6>{{firstEvolutions[0].name}}</h6>
+                </div>
+
+                <div *ngIf="secondEvolutions.length > 0">
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+
+                <div (click)="goToPokemonDetails(secondEvolutions[0].name)" style="cursor: pointer;" *ngIf="secondEvolutions.length > 0" class="d-flex flex-column justify-content-center align-items-center">
+                    <h5>Second evolution</h5>
+                    <img [src]="secondEvolutions[0].image">
+                    <h6>{{secondEvolutions[0].name}}</h6>
+                </div>
+
+                <div *ngIf="secondEvolutions.length > 0 && thirdEvolutions.length > 0">
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+
+                <div (click)="goToPokemonDetails(thirdEvolutions[0].name)" style="cursor: pointer;" *ngIf="secondEvolutions.length > 0 && thirdEvolutions.length > 0" class="d-flex flex-column justify-content-center align-items-center">
+                    <h5>Third evolution</h5>
+                    <img [src]="thirdEvolutions[0].image">
+                    <h6>{{thirdEvolutions[0].name}}</h6>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="d-flex flex-column justify-content-center align-items-center order-lg-3 order-md-2 order-sm-2 order-2">
+            <h2 class="mx-5 w-100">Base stats:</h2>
+            <div *ngFor="let pokemon of pokemonDetailsData.stats" class="d-flex flex-column w-100 mx-auto">
+                <h5>{{pokemon.stat.name}}</h5>
+                <div class="progress-bar py-1 rounded" role="progressbar" [ngClass]="getClassBackground(pokemonDetailsData.types.length > 1 && pokemonDetailsData.types[0].type.name === 'normal' ? pokemonDetailsData.types[1].type.name : pokemonDetailsData.types[0].type.name)" [ngStyle]="{'width': limitValue(pokemon.base_stat) + '%'}">
+                  <p class="p-0 m-0 align-middle" style="font-weight: 600;">{{pokemon.base_stat}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex flex-row justify-content-around flex-wrap">
+        <div *ngFor="let type of pokemonTypes">
+            <div [ngClass]="getClassBackground(type.name)" class="d-flex justify-content-center align-items-center m-2 p-2 rounded">
+                <h5 class="mx-2">{{type.name}}</h5>
+                <img src="../../assets/{{type.name}}.svg" alt="fire-icon" style="width: 30px; height: 30px;" />
+            </div>
+
+            <div class="d-flex flex-row justify-content-center flex-wrap">
+                <div class="m-3">
+                    <h6>Double damage from</h6>
+                    <div *ngFor="let damage of type.damage_relations.double_damage_from">
+                        <div [ngClass]="getClassBackground(damage.name)" class="d-flex flex-row justify-content-center align-items-center m-2 p-2 rounded">
+                            <h5 class="mx-2">{{damage.name}}</h5>
+                            <img src="../../assets/{{damage.name}}.svg" alt="fire-icon" style="width: 30px; height: 30px;" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="m-3">
+                    <h6>Double damage to</h6>
+                    <div *ngFor="let damage of type.damage_relations.double_damage_to">
+                        <div [ngClass]="getClassBackground(damage.name)" class="d-flex flex-row justify-content-center align-items-center m-2 p-2 rounded">
+                            <h5 class="mx-2">{{damage.name}}</h5>
+                            <img src="../../assets/{{damage.name}}.svg" alt="fire-icon" style="width: 30px; height: 30px;" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="m-3">
+                    <h6>Half damage from</h6>
+                    <div *ngFor="let damage of type.damage_relations.half_damage_from">
+                        <div [ngClass]="getClassBackground(damage.name)" class="d-flex flex-row justify-content-center align-items-center m-2 p-2 rounded">
+                            <h5 class="mx-2">{{damage.name}}</h5>
+                            <img src="../../assets/{{damage.name}}.svg" alt="fire-icon" style="width: 30px; height: 30px;" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="m-3">
+                    <h6>Half damage to</h6>
+                    <div *ngFor="let damage of type.damage_relations.half_damage_to">
+                        <div [ngClass]="getClassBackground(damage.name)" class="d-flex flex-row justify-content-center align-items-center m-2 p-2 rounded">
+                            <h5 class="mx-2">{{damage.name}}</h5>
+                            <img src="../../assets/{{damage.name}}.svg" alt="fire-icon" style="width: 30px; height: 30px;" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="m-3" *ngIf="type.damage_relations.no_damage_from.length > 0">
+                    <h6>No damage from</h6>
+                    <div *ngFor="let damage of type.damage_relations.no_damage_from">
+                        <div [ngClass]="getClassBackground(damage.name)" class="d-flex flex-row justify-content-center align-items-center m-2 p-2 rounded">
+                            <h5 class="mx-2">{{damage.name}}</h5>
+                            <img src="../../assets/{{damage.name}}.svg" alt="fire-icon" style="width: 30px; height: 30px;" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="m-3" *ngIf="type.damage_relations.no_damage_to.length > 0">
+                    <h6>No damage to</h6>
+                    <div *ngFor="let damage of type.damage_relations.no_damage_to">
+                        <div [ngClass]="getClassBackground(damage.name)" class="d-flex flex-row justify-content-center align-items-center m-2 p-2 rounded">
+                            <h5 class="mx-2">{{damage.name}}</h5>
+                            <img src="../../assets/{{damage.name}}.svg" alt="fire-icon" style="width: 30px; height: 30px;" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="w-100">
+        <div class="mx-5">
+            <h2>Pokédex entries</h2>
+            <h4>Video game series</h4>
+        </div>
+        <div *ngFor="let pokemonEntries of pokemonSpecies.flavor_text_entries">
+            <div *ngIf="pokemonEntries.language.name === 'en'" class="mx-5">
+                <div class=" w-100">
+                    <h6  [ngClass]="getClassColor(pokemonDetailsData.types.length > 1 && pokemonDetailsData.types[0].type.name === 'normal' ? pokemonDetailsData.types[1].type.name : pokemonDetailsData.types[0].type.name)">{{pokemonEntries.version.name}}</h6>
+                    <p class="px-5">{{findChar(pokemonEntries.flavor_text)}}</p>
+                </div>
+                <hr />
+            </div>
+        </div>
+    </div>
 </div>
