@@ -1,27 +1,25 @@
-# Pokedexbydrumsky
+# Pokédex
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.1.4.
+This project connects to Pokemon API and presents information about each pokemon available in the api.
 
-## Development server
+## Links
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+----
 
-## Code scaffolding
+## Screenshots
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Home page:
+![image](https://user-images.githubusercontent.com/92679685/218308151-72472443-af6c-4223-a980-ddb650e852bb.png)
 
-## Build
+Pokemon details page
+![image](https://user-images.githubusercontent.com/92679685/218308198-3e2c9c45-1011-42a7-833a-6fc5956995b2.png)
+![image](https://user-images.githubusercontent.com/92679685/218308219-36f43502-381c-4fd7-9e43-50abe5ba5bfc.png)
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Used
 
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+  - TypeScript
+  - Angular CLI - 15.1.4
+  - HTML
+  - CSS
+  - Bootstrap
+  - PokéAPI - https://pokeapi.co
