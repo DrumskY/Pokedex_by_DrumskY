@@ -3,8 +3,7 @@
 This project connects to Pokemon API and presents information about each pokemon available in the api.
 
 ## Links
-
-----
+Link to Pokédex: https://drumsky-pokedex.onrender.com
 
 ## Screenshots
 
