@@ -5,9 +5,6 @@ import {
   PokemonEvolves,
   PokemonInfo,
   PokemonSpecies,
-  Species,
-  Species2,
-  Species3,
 } from '../interfaces/pokemon';
 import { Router } from '@angular/router';
 
@@ -36,15 +33,12 @@ export class PokemonDetailsComponent implements OnInit {
       this.initPokemonDetailsData().then((data) => {
         if (data) {
           this.pokemonDetailsData = data;
-          console.log(this.pokemonDetailsData);
           this.initPokemonDetailsSpeciesData().then((speciesData) => {
             if (speciesData) {
               this.pokemonSpecies = speciesData;
-              console.log(this.pokemonSpecies);
               this.initPokemonEvolutionData().then((evolutionData) => {
                 if (evolutionData) {
                   this.pokemonEvolution = evolutionData;
-                  console.log(this.pokemonEvolution);
                 }
               });
             }
@@ -69,7 +63,6 @@ export class PokemonDetailsComponent implements OnInit {
 
   goToPokemonDetails(pokemon: string) {
     this.router.navigate(['/pokemon', pokemon]);
-    console.log(pokemon);
   }
 
   getClassBackground(typeName: string) {
@@ -163,7 +156,6 @@ export class PokemonDetailsComponent implements OnInit {
       const pokemonInfoResponse = await axios.get<PokemonInfo>(
         `https://pokeapi.co/api/v2/pokemon/${this.name}`
       );
-      console.log(pokemonInfoResponse.data);
       return pokemonInfoResponse.data;
     } catch (error) {
       console.error(error);
@@ -176,7 +168,6 @@ export class PokemonDetailsComponent implements OnInit {
       const pokemonInfoShinyResponse = await axios.get<PokemonInfo>(
         `https://pokeapi.co/api/v2/pokemon/${name}`
       );
-      console.log(pokemonInfoShinyResponse.data);
       return pokemonInfoShinyResponse.data;
     } catch (error) {
       console.error(error);
@@ -190,7 +181,6 @@ export class PokemonDetailsComponent implements OnInit {
       for (const type of this.pokemonDetailsData.types) {
         const pokemonInfoResponse = await axios.get(type.type.url);
         this.pokemonTypes.push(pokemonInfoResponse.data);
-        console.log(this.pokemonTypes);
       }
     } catch (error) {
       console.error(error);
@@ -203,7 +193,6 @@ export class PokemonDetailsComponent implements OnInit {
       const pokemonInfoResponse = await axios.get<PokemonSpecies>(
         `${this.pokemonDetailsData.species.url}`
       );
-      console.log(pokemonInfoResponse.data);
       return pokemonInfoResponse.data;
     } catch (error) {
       console.error(error);
@@ -216,7 +205,6 @@ export class PokemonDetailsComponent implements OnInit {
       const pokemonInfoResponse = await axios.get<PokemonEvolves>(
         `${this.pokemonSpecies.evolution_chain.url}`
       );
-      console.log(pokemonInfoResponse.data);
 
       const firstEvolutionChain =
         await this.initPokemonDetailsDataForImageShiny(
@@ -259,10 +247,6 @@ export class PokemonDetailsComponent implements OnInit {
           },
         ];
       }
-
-      console.log(this.firstEvolutions);
-      console.log(this.secondEvolutions);
-      console.log(this.thirdEvolutions);
 
       return pokemonInfoResponse.data;
     } catch (error) {

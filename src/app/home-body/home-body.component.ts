@@ -39,7 +39,6 @@ export class HomeBodyComponent {
 
   goToPokemonDetails(pokemon: string) {
     this.router.navigate(['/pokemon', pokemon]);
-    console.log(pokemon);
   }
 
   prevPage(): void {
@@ -98,11 +97,6 @@ export class HomeBodyComponent {
   }
 
   async initPokemonData(): Promise<void> {
-    this.urlIdLookup = '';
-    this.pokemons = [];
-    this.pokemonInfo = [];
-    this.filteredPokemon = [];
-
     try {
       const pokemonResponse = await axios.get<Pokemon>(
         `https://pokeapi.co/api/v2/pokemon?offset=${this.changePage}&&limit=${this.changeLimit}`
@@ -114,7 +108,6 @@ export class HomeBodyComponent {
           (acc = { ...acc, [cur.name]: idx + 1 + this.changePage }),
         {}
       );
-      console.log(this.urlIdLookup);
 
       const pokemonInfoRequests = results.map(
         async (pokemon: PokemonResult) => {
@@ -127,7 +120,6 @@ export class HomeBodyComponent {
       );
 
       this.pokemonInfo = await Promise.all(pokemonInfoRequests);
-      console.log(this.pokemonInfo);
 
       this.filterPokemon();
     } catch (error) {
@@ -151,8 +143,6 @@ export class HomeBodyComponent {
         })
       );
       this.pokemonInfoOnSearch = pokemonInfo;
-
-      // this.filterPokemonOnSearch();
     } catch (error) {
       console.error(error);
     }
@@ -185,7 +175,6 @@ export class HomeBodyComponent {
         (pokemonType) => pokemonType.type.name === type
       );
     });
-    console.log(this.filteredPokemonInfo);
   }
 
   public filterPokemon(): void {
@@ -194,8 +183,6 @@ export class HomeBodyComponent {
           pokemon.name.toLowerCase().includes(this.searchTerm.toLowerCase())
         )
       : this.pokemonInfo;
-    console.log(this.filteredPokemonInfo);
-    console.log(this.pokemonInfo);
   }
 
   public filterPokemonOnSearch(): void {
@@ -204,8 +191,6 @@ export class HomeBodyComponent {
           pokemon.name.toLowerCase().includes(this.searchTerm.toLowerCase())
         )
       : this.pokemonInfo;
-    console.log(this.filteredPokemonInfo);
-    console.log(this.pokemonInfo);
   }
 
   public onSearchInput(searchTerm: string): void {
