@@ -20,21 +20,17 @@ export class HomeBodyComponent {
   public filteredPokemon: PokemonResult[] = [];
   public filteredPokemonInfo: PokemonInfo[] = [];
 
-  public pokemonsByType: PokemonResult[] = [];
-  public pokemonInfoByType: PokemonInfo[] = [];
-  public filteredPokemonByType: PokemonResult[] = [];
-
   public pokemonsOnSearch: PokemonResult[] = [];
   public pokemonInfoOnSearch: PokemonInfo[] = [];
   public filteredPokemonOnSearch: PokemonResult[] = [];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+    this.searchPokemon();
+  }
 
   ngOnInit(): void {
     // lifecycle hook
     this.initPokemonData();
-    this.searchPokemon();
-    this.searchByTypePokemon();
   }
 
   goToPokemonDetails(pokemon: string) {
@@ -148,29 +144,8 @@ export class HomeBodyComponent {
     }
   }
 
-  private async searchByTypePokemon(): Promise<void> {
-    try {
-      const response = await axios.get<Pokemon>(
-        `https://pokeapi.co/api/v2/pokemon?limit=1000&offset=0`
-      );
-      const pokemons = response.data.results;
-      const pokemonInfo = await Promise.all(
-        pokemons.map(async (pokemon) => {
-          const pokemonID = pokemon.url.split('/')[6];
-          const infoResponse = await axios.get<PokemonInfo>(
-            `https://pokeapi.co/api/v2/pokemon/${pokemonID}`
-          );
-          return infoResponse.data;
-        })
-      );
-      this.pokemonInfoByType = pokemonInfo;
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
   public filterByType(type: string) {
-    this.filteredPokemonInfo = this.pokemonInfoByType.filter((pokemon) => {
+    this.filteredPokemonInfo = this.pokemonInfoOnSearch.filter((pokemon) => {
       return pokemon.types.find(
         (pokemonType) => pokemonType.type.name === type
       );
