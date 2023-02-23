@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import axios from 'axios';
 import { Pokemon, PokemonInfo, PokemonResult } from '../interfaces/pokemon';
+import { AppComponent } from '../app.component';
 
 @Component({
   selector: 'app-home-body',
@@ -24,8 +25,17 @@ export class HomeBodyComponent {
   public pokemonInfoOnSearch: PokemonInfo[] = [];
   public filteredPokemonOnSearch: PokemonResult[] = [];
 
-  constructor(private router: Router) {
-    this.searchPokemon();
+  public data = JSON.parse(
+    localStorage.getItem('pokemonInfoOnSearchLocalStorage') || '[]'
+  );
+
+  constructor(private router: Router, private pokemonService: AppComponent) {
+    this.pokemonInfoOnSearch = this.pokemonService.pokeInfo;
+    if (this.pokemonInfoOnSearch.length === 0) {
+      this.searchPokemon();
+    }
+    console.log(this.pokemonInfoOnSearch);
+    // this.searchPokemon();
   }
 
   ngOnInit(): void {
@@ -144,8 +154,25 @@ export class HomeBodyComponent {
     }
   }
 
+  // async searchPokemon() {
+  //   try {
+  //     const pokemons = await api.getPokemonList();
+  //     const pokemonInfo = await Promise.all(
+  //       pokemons.map(async (pokemon) => {
+  //         const pokemonID = pokemon.url.split('/')[6];
+  //         return api.getPokemonInfo(pokemonID);
+  //       })
+  //     );
+  //     this.pokemonInfoOnSearch = pokemonInfo;
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }
+
   public filterByType(type: string) {
+    // let data = JSON.parse(localStorage.getItem("pokemonInfoOnSearchLocalStorage") || '[]') ;
     this.filteredPokemonInfo = this.pokemonInfoOnSearch.filter((pokemon) => {
+      console.log(this.filteredPokemonInfo);
       return pokemon.types.find(
         (pokemonType) => pokemonType.type.name === type
       );
@@ -161,11 +188,13 @@ export class HomeBodyComponent {
   }
 
   public filterPokemonOnSearch(): void {
+    // let data = JSON.parse(localStorage.getItem("pokemonInfoOnSearchLocalStorage") || '[]') ;
     this.filteredPokemonInfo = this.searchTerm
       ? this.pokemonInfoOnSearch.filter((pokemon) =>
           pokemon.name.toLowerCase().includes(this.searchTerm.toLowerCase())
         )
       : this.pokemonInfo;
+    console.log(this.filteredPokemonInfo);
   }
 
   public onSearchInput(searchTerm: string): void {
