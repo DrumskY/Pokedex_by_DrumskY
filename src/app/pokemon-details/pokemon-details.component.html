@@ -104,7 +104,7 @@
 
     <div class="d-flex flex-row justify-content-around flex-wrap">
         <div *ngFor="let type of pokemonTypes">
-            <div [ngClass]="getClassBackground(type?.name)" class="d-flex justify-content-center align-items-center m-2 p-2 rounded">
+            <div [ngClass]="getClassBackground(type?.name)" class="d-flex justify-content-center align-items-center m-2 p-2 rounded" (click)="goToPokemonHomePageWithType(type?.name)" style="cursor: pointer;">
                 <h5 class="mx-2">{{type?.name}}</h5>
                 <img src="../../assets/{{type?.name}}.svg" alt="fire-icon" style="width: 30px; height: 30px;" />
             </div>
@@ -112,7 +112,7 @@
             <div class="d-flex flex-row justify-content-center flex-wrap">
                 <div class="m-3" *ngIf="type.damage_relations.double_damage_from.length > 0">
                     <h6>Double damage from</h6>
-                    <div *ngFor="let damage of type.damage_relations?.double_damage_from">
+                    <div *ngFor="let damage of type.damage_relations?.double_damage_from" (click)="goToPokemonHomePageWithType(damage?.name)" style="cursor: pointer;">
                         <div [ngClass]="getClassBackground(damage?.name)" class="d-flex flex-row justify-content-center align-items-center m-2 p-2 rounded">
                             <h5 class="mx-2">{{damage?.name}}</h5>
                             <img src="../../assets/{{damage?.name}}.svg" alt="fire-icon" style="width: 30px; height: 30px;" />
@@ -122,7 +122,7 @@
 
                 <div class="m-3" *ngIf="type.damage_relations.double_damage_to.length > 0">
                     <h6>Double damage to</h6>
-                    <div *ngFor="let damage of type.damage_relations?.double_damage_to">
+                    <div *ngFor="let damage of type.damage_relations?.double_damage_to" (click)="goToPokemonHomePageWithType(damage?.name)" style="cursor: pointer;">
                         <div [ngClass]="getClassBackground(damage?.name)" class="d-flex flex-row justify-content-center align-items-center m-2 p-2 rounded">
                             <h5 class="mx-2">{{damage?.name}}</h5>
                             <img src="../../assets/{{damage?.name}}.svg" alt="fire-icon" style="width: 30px; height: 30px;" />
@@ -132,7 +132,7 @@
 
                 <div class="m-3" *ngIf="type.damage_relations.half_damage_from.length > 0">
                     <h6>Half damage from</h6>
-                    <div *ngFor="let damage of type.damage_relations.half_damage_from">
+                    <div *ngFor="let damage of type.damage_relations.half_damage_from" (click)="goToPokemonHomePageWithType(damage?.name)" style="cursor: pointer;">
                         <div [ngClass]="getClassBackground(damage.name)" class="d-flex flex-row justify-content-center align-items-center m-2 p-2 rounded">
                             <h5 class="mx-2">{{damage.name}}</h5>
                             <img src="../../assets/{{damage.name}}.svg" alt="fire-icon" style="width: 30px; height: 30px;" />
@@ -142,7 +142,7 @@
 
                 <div class="m-3" *ngIf="type.damage_relations.half_damage_to.length > 0">
                     <h6>Half damage to</h6>
-                    <div *ngFor="let damage of type.damage_relations.half_damage_to">
+                    <div *ngFor="let damage of type.damage_relations.half_damage_to" (click)="goToPokemonHomePageWithType(damage?.name)" style="cursor: pointer;">
                         <div [ngClass]="getClassBackground(damage.name)" class="d-flex flex-row justify-content-center align-items-center m-2 p-2 rounded">
                             <h5 class="mx-2">{{damage.name}}</h5>
                             <img src="../../assets/{{damage.name}}.svg" alt="fire-icon" style="width: 30px; height: 30px;" />
@@ -152,7 +152,7 @@
 
                 <div class="m-3" *ngIf="type.damage_relations.no_damage_from.length > 0">
                     <h6>No damage from</h6>
-                    <div *ngFor="let damage of type.damage_relations.no_damage_from">
+                    <div *ngFor="let damage of type.damage_relations.no_damage_from" (click)="goToPokemonHomePageWithType(damage?.name)" style="cursor: pointer;">
                         <div [ngClass]="getClassBackground(damage.name)" class="d-flex flex-row justify-content-center align-items-center m-2 p-2 rounded">
                             <h5 class="mx-2">{{damage.name}}</h5>
                             <img src="../../assets/{{damage.name}}.svg" alt="fire-icon" style="width: 30px; height: 30px;" />
@@ -162,7 +162,7 @@
 
                 <div class="m-3" *ngIf="type.damage_relations.no_damage_to.length > 0">
                     <h6>No damage to</h6>
-                    <div *ngFor="let damage of type.damage_relations.no_damage_to">
+                    <div *ngFor="let damage of type.damage_relations.no_damage_to" (click)="goToPokemonHomePageWithType(damage?.name)" style="cursor: pointer;">
                         <div [ngClass]="getClassBackground(damage.name)" class="d-flex flex-row justify-content-center align-items-center m-2 p-2 rounded">
                             <h5 class="mx-2">{{damage.name}}</h5>
                             <img src="../../assets/{{damage.name}}.svg" alt="fire-icon" style="width: 30px; height: 30px;" />

@@ -10,6 +10,7 @@ import { AppComponent } from '../app.component';
   styleUrls: ['./home-body.component.scss'],
 })
 export class HomeBodyComponent {
+  type: string = '';
   changePage: number = 0;
   changeLimit: number = 40;
 
@@ -24,6 +25,7 @@ export class HomeBodyComponent {
   public pokemonsOnSearch: PokemonResult[] = [];
   public pokemonInfoOnSearch: PokemonInfo[] = [];
   public filteredPokemonOnSearch: PokemonResult[] = [];
+  public currentNavigation = history.state;
 
   public data = JSON.parse(
     localStorage.getItem('pokemonInfoOnSearchLocalStorage') || '[]'
@@ -34,13 +36,20 @@ export class HomeBodyComponent {
     if (this.pokemonInfoOnSearch.length === 0) {
       this.searchPokemon();
     }
-    console.log(this.pokemonInfoOnSearch);
-    // this.searchPokemon();
   }
 
   ngOnInit(): void {
     // lifecycle hook
-    this.initPokemonData();
+    if (
+      this.currentNavigation &&
+      this.currentNavigation.navigationId != 1 &&
+      this.currentNavigation.type != undefined
+    ) {
+      this.type = this.currentNavigation.type;
+      this.filterByType(this.type);
+    } else {
+      this.initPokemonData();
+    }
   }
 
   goToPokemonDetails(pokemon: string) {
@@ -57,6 +66,14 @@ export class HomeBodyComponent {
     this.changePage += 40;
     this.pokemonInfo = [];
     this.initPokemonData();
+  }
+
+  scrollToTop(): void {
+    window.scroll({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
   }
 
   getClassBackground(typeName: string) {
@@ -154,25 +171,8 @@ export class HomeBodyComponent {
     }
   }
 
-  // async searchPokemon() {
-  //   try {
-  //     const pokemons = await api.getPokemonList();
-  //     const pokemonInfo = await Promise.all(
-  //       pokemons.map(async (pokemon) => {
-  //         const pokemonID = pokemon.url.split('/')[6];
-  //         return api.getPokemonInfo(pokemonID);
-  //       })
-  //     );
-  //     this.pokemonInfoOnSearch = pokemonInfo;
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }
-
   public filterByType(type: string) {
-    // let data = JSON.parse(localStorage.getItem("pokemonInfoOnSearchLocalStorage") || '[]') ;
     this.filteredPokemonInfo = this.pokemonInfoOnSearch.filter((pokemon) => {
-      console.log(this.filteredPokemonInfo);
       return pokemon.types.find(
         (pokemonType) => pokemonType.type.name === type
       );
@@ -188,13 +188,11 @@ export class HomeBodyComponent {
   }
 
   public filterPokemonOnSearch(): void {
-    // let data = JSON.parse(localStorage.getItem("pokemonInfoOnSearchLocalStorage") || '[]') ;
     this.filteredPokemonInfo = this.searchTerm
       ? this.pokemonInfoOnSearch.filter((pokemon) =>
           pokemon.name.toLowerCase().includes(this.searchTerm.toLowerCase())
         )
       : this.pokemonInfo;
-    console.log(this.filteredPokemonInfo);
   }
 
   public onSearchInput(searchTerm: string): void {

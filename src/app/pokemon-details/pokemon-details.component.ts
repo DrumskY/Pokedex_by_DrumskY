@@ -61,6 +61,10 @@ export class PokemonDetailsComponent implements OnInit {
     this.router.navigate(['/']);
   }
 
+  goToPokemonHomePageWithType(type: string) {
+    this.router.navigate(['/'], { state: { type: type } });
+  }
+
   goToPokemonDetails(pokemon: string) {
     this.router.navigate(['/pokemon', pokemon]);
   }
