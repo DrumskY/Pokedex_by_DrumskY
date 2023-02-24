@@ -62,6 +62,7 @@ export class PokemonDetailsComponent implements OnInit {
   }
 
   goToPokemonHomePageWithType(type: string) {
+    localStorage.setItem('bool', 'true');
     this.router.navigate(['/'], { state: { type: type } });
   }
 

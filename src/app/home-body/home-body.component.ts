@@ -1,8 +1,14 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import {
+  NavigationStart,
+  Router,
+  RouterEvent,
+  Event as NavigationEvent,
+} from '@angular/router';
 import axios from 'axios';
 import { Pokemon, PokemonInfo, PokemonResult } from '../interfaces/pokemon';
 import { AppComponent } from '../app.component';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-home-body',
@@ -25,7 +31,9 @@ export class HomeBodyComponent {
   public pokemonsOnSearch: PokemonResult[] = [];
   public pokemonInfoOnSearch: PokemonInfo[] = [];
   public filteredPokemonOnSearch: PokemonResult[] = [];
-  public currentNavigation = history.state;
+  // public currentNavigation = history.state;
+  public currentNavigation = this.router.getCurrentNavigation();
+  public bool = localStorage.getItem('bool');
 
   public data = JSON.parse(
     localStorage.getItem('pokemonInfoOnSearchLocalStorage') || '[]'
@@ -40,13 +48,13 @@ export class HomeBodyComponent {
 
   ngOnInit(): void {
     // lifecycle hook
-    if (
-      this.currentNavigation &&
-      this.currentNavigation.navigationId != 1 &&
-      this.currentNavigation.type != undefined
-    ) {
-      this.type = this.currentNavigation.type;
-      this.filterByType(this.type);
+
+    if (this.bool === 'true') {
+      localStorage.removeItem('bool');
+      if (this.currentNavigation) {
+        const types = this.currentNavigation.extras.state?.['type'];
+        this.filterByType(types);
+      }
     } else {
       this.initPokemonData();
     }
