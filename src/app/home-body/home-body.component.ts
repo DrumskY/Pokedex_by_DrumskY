@@ -31,7 +31,6 @@ export class HomeBodyComponent {
   public pokemonsOnSearch: PokemonResult[] = [];
   public pokemonInfoOnSearch: PokemonInfo[] = [];
   public filteredPokemonOnSearch: PokemonResult[] = [];
-  // public currentNavigation = history.state;
   public currentNavigation = this.router.getCurrentNavigation();
   public bool = localStorage.getItem('bool');
 
@@ -206,7 +205,11 @@ export class HomeBodyComponent {
   public onSearchInput(searchTerm: string): void {
     this.searchTerm = searchTerm;
     if (!searchTerm) {
-      this.filterPokemon();
+      if (this.pokemonInfo.length === 0) {
+        this.initPokemonData();
+      } else {
+        this.filterPokemon();
+      }
       return;
     }
     this.filterPokemonOnSearch();
